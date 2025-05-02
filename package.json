@@ -6,7 +6,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "prod": "node dist/app.js",
-    "build": "esbuild src/app.js --bundle --platform=node --outdir=dist"
+    "build": "esbuild src/app.js --bundle --platform=node --outdir=dist --external:link-preview-js --external:jimp --external:sharp"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
