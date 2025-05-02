@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "prod": "node dist/app.js"
+    "prod": "node dist/app.js",
+    "build": "esbuild src/app.js --bundle --platform=node --outdir=dist"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.1",
@@ -16,9 +17,15 @@
     "qrcode-terminal": "^0.12.0"
   },
   "devDependencies": {
+    "esbuild": "^0.25.3",
     "nodemon": "^3.1.10"
   },
   "nodemonConfig": {
-    "ignore": ["auth/*", "auth_info/*", "*.json", "*.jpg"]
+    "ignore": [
+      "auth/*",
+      "auth_info/*",
+      "*.json",
+      "*.jpg"
+    ]
   }
 }
