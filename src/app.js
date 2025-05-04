@@ -1,26 +1,32 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const { MongoClient } = require('mongodb');
+const { MONGO_CONFIG } = require('./config/MONGO_CONFIG.js');
 const dotenv = require('dotenv');
 const { startWhatsAppListener } = require('./listener/whatsappListener');
 const messageRoutes = require('./routes/messageRoutes');
 
 dotenv.config();
+const { CONNECTION_URI, MONGO_DBNAME } = MONGO_CONFIG
 
 const app = express();
 app.use(express.json());
 
-// Connect MongoDB
-// mongoose.connect(process.env.MONGODB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// }).then(() => {
-//     console.log('✅ MongoDB Connected');
-// }).catch((err) => {
-//     console.error('❌ MongoDB connection error:', err);
-// });
+let mongoClientDB;
+
+const connectToMongoDB = async () => {
+    console.log('[Info] Connecting to MongoDB...');
+    const mongoClientUse = new MongoClient(CONNECTION_URI);
+    await mongoClientUse.connect();
+    mongoClientDB = mongoClientUse.db(MONGO_DBNAME);
+};
+
+connectToMongoDB().catch((err) => {
+    console.error('[Error] Failed to connect to MongoDB:', err);
+    process.exit(1);
+});
+
 
 // API Routes
-app.use('/api/messages', messageRoutes);
 
 // Start WhatsApp Bot
 startWhatsAppListener();
@@ -30,36 +36,3 @@ const PORT = process.env.PORT || 5111;
 app.listen(PORT, () => {
     console.log(`🚀 ARYA API running on http://localhost:${PORT}`);
 });
-
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const dotenv = require('dotenv');
-// const { startWhatsAppListener } = require('./listener/whatsappListener');
-// const messageRoutes = require('./routes/messageRoutes');
-
-// dotenv.config();
-
-// const app = express();
-// app.use(express.json());
-
-// // Connect MongoDB
-// // mongoose.connect(process.env.MONGODB_URI, {
-// //     useNewUrlParser: true,
-// //     useUnifiedTopology: true
-// // }).then(() => {
-// //     console.log('✅ MongoDB Connected');
-// // }).catch((err) => {
-// //     console.error('❌ MongoDB connection error:', err);
-// // });
-
-// // Routes
-// app.use('/api/messages', messageRoutes);
-
-// // Start WhatsApp Listener
-// startWhatsAppListener();
-
-// // Start Express Server
-// const PORT = 5100;
-// app.listen(PORT, () => {
-//     console.log(`🚀 ARYA API running at http://localhost:${PORT}`);
-// });

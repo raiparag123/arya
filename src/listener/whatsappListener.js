@@ -48,7 +48,7 @@ async function startWhatsAppListener() {
     sock.ev.on('messages.upsert', async ({ messages, type }) => {
         if (type !== 'notify') return;
         const msg = messages[0];
-
+        console.log("🚀 ~ sock.ev.on ~ msg:", msg)
         //Media message handling
         /* if (['videoMessage', 'audioMessage', 'documentMessage', 'imageMessage'].some(type => msg.message?.[type])) 
               await saveMedia(msg); */
@@ -73,6 +73,7 @@ async function startWhatsAppListener() {
             console.error('❌ Failed to send to API:', err.message);
         }
     });
+        
         
 
     sock.ev.on('creds.update', saveCreds);
