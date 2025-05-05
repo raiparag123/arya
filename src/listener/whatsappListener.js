@@ -48,7 +48,6 @@ async function startWhatsAppListener() {
     sock.ev.on('messages.upsert', async ({ messages, type }) => {
         if (type !== 'notify') return;
         const msg = messages[0];
-        console.log("🚀 ~ sock.ev.on ~ msg:", msg)
         //Media message handling
         /* if (['videoMessage', 'audioMessage', 'documentMessage', 'imageMessage'].some(type => msg.message?.[type])) 
               await saveMedia(msg); */
@@ -61,9 +60,7 @@ async function startWhatsAppListener() {
         try {
             await saveMessage({
                 body: {
-                    senderId,
-                    messageText: text,
-                    timestamp: new Date(),
+                    msg
                 }
             }, {
                 status: () => ({ json: () => {} }) // Dummy response object
