@@ -1,13 +1,13 @@
-const { saveMessageToDB } = require('../services/whatsappMessage');
+const Message = require('../models/Message');
 
 const saveMessage = async (req, res) => {
     try {
-        const { msg } = req.body;
+        const { senderId, messageText, timestamp } = req.body;
 
-        // Save the message to the database
-        const result = await saveMessageToDB(msg);
+        // const message = new Message({ senderId, messageText, timestamp });
+        // await message.save();
 
-        res.status(201).json({ success: true, message: 'Message saved.', data: result });
+        res.status(201).json({ success: true, message: 'Message saved.' });
     } catch (err) {
         console.error('Error saving message:', err);
         res.status(500).json({ success: false, error: 'Server error.' });
