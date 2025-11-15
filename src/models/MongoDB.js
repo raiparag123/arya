@@ -1,5 +1,4 @@
 'use strict';
-
 const { connectToMongoDB } = require('../utils/mongoConnection');
 
 // Find ONE
